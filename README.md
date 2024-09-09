@@ -6,7 +6,8 @@ Kelas : PBP E
 
 Tautan PWS : yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id
 
-1. 
+1. Pertanyaan
+
     Membuat sebuah proyek Django baru
         - membuat repositori baru
         - melakukan set up environtment pada local supaya bisa build project snap_buy 
@@ -25,3 +26,13 @@ Tautan PWS : yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id
         - menambahkan remote pws 
         - push pada pws
 2. 
+
+3. 
+    git berfungsi dalam banyak hal di dalam pengembangan perangkat lunak
+        - kontrol versi, bisa melihat files yang ditambahkan di versi tertentu dan juga bisa di kembalikan apa bila diperlukan
+        - kolaborasi tim, lebih mudah bekerja sama karena tim bisa saling melihat pekerjaan rekannya
+        - mengharuskan resolving conflicts sehingga apabila di dalam tim, mudah sekali untuk resolve conflicts agar tidak terjadi masalah
+4. 
+    mungkin karena django sudah memiliki struktur yang jelas dan mudah diaplikasikan untuk pemula. Django juga memiliki banyak fitur seperti, autentikasi, manajemen pengguna, ORM, admin panel, dan sistem routing sehingga dapat memudahkan pengembang.  
+5. 
+    Django disebut ORM(Object-Relational Mapping) karena dapat menghubungkan objek-objek sehingga memudahkan pengembang untuk bekerja dengan basis data menggunakan konsep object. Django memudahkan untuk mengelola relasi antar objek, juga memudahkan untuk membuat dan memodifikasi skema basisdata menggunakan migrasi.
