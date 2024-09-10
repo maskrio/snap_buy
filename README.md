@@ -75,7 +75,7 @@ git push pws main:master
 ---
 
 ### Bagan *request client*
-![Bagan-request-client](https://github.com/maskrio/snap_buy/blob/main/Bagain-request-client.png)
+![Bagan-request-client](https://github.com/maskrio/snap_buy/blob/main/Bagan-request-client.png)
 
 
 ---
@@ -97,11 +97,11 @@ mudah sekali untuk resolve conflicts agar tidak terjadi masalah pada aplikasi.
 
 Django sudah memiliki struktur yang jelas dan mudah
 diaplikasikan. Django juga sudah memiliki banyak fitur
-seperti, autentikasi, manajemen pengguna, ORM, admin panel, dan
-sistem routing sehingga dapat memudahkan pengembang, terutama pemula.
+seperti, autentikasi, manajemen pengguna, ORM, admin panel,
+sistem routing, testing, dan lain-lain sehingga tidak perlu membangunnya dari awat dan memudahkan pengembang, terutama pemula.
 
 ---
 
-### Django disebut ORM
+### Model Django disebut ORM
 
-Django disebut ORM(Object-Relational Mapping) karena dapat menghubungkan objek-objek sehingga memudahkan pengembang untuk bekerja dengan basis data menggunakan konsep object. Django memudahkan untuk mengelola relasi antar objek, juga memudahkan untuk membuat dan memodifikasi skema basisdata menggunakan migrasi.
+Model Django disebut ORM(Object-Relational Mapping) karena dapat menghubungkan objek-objek sehingga memudahkan pengembang untuk bekerja dengan basis data menggunakan konsep object. Tidak perlu untuk menulis code SQL secara langsung, namun cukup menggunakan objek python untuk berinteraksi dengan basis data. Model Django juga menerapkan dukungan relasi antar model untuk membuat skema basis data yang baik.
