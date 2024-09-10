@@ -75,7 +75,7 @@ git push pws main:master
 ---
 
 ### Bagan *request client*
-<img src="https://i.ibb.co.com/C1v8LYK/Bagan-request-client.png" alt="Bagan-request-client" border="0">
+<a href="https://ibb.co.com/5Mv4ZSh"><img src="https://i.ibb.co.com/C1v8LYK/Bagan-request-client.png" alt="Bagan-request-client" border="0"></a>
 
 ---
 
