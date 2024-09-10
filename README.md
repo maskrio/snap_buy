@@ -75,7 +75,7 @@ git push pws main:master
 ---
 
 ### Bagan *request client*
-![Bagan-request-client](https://i.ibb.co.com/C1v8LYK/Bagan-request-client.png)
+![Bagan-request-client](https://github.com/maskrio/snap_buy/blob/main/Bagain-request-client.png)
 
 
 ---
