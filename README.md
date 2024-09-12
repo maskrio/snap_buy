@@ -1,6 +1,8 @@
 Tautan PWS : yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id
 
-## Implementation Step-by-step
+## Tugas 2
+
+### Implementation Step-by-step
 
 #### Membuat project django baru.
 
@@ -105,3 +107,44 @@ sistem routing, testing, dan lain-lain sehingga tidak perlu membangunnya dari aw
 ### Model Django disebut ORM
 
 Model Django disebut ORM(Object-Relational Mapping) karena dapat menghubungkan objek-objek sehingga memudahkan pengembang untuk bekerja dengan basis data menggunakan konsep object. Tidak perlu untuk menulis code SQL secara langsung, namun cukup menggunakan objek python untuk berinteraksi dengan basis data. Model Django juga menerapkan dukungan relasi antar model untuk membuat skema basis data yang baik.
+
+
+## TUGAS 3
+
+### Perlunya data delivery
+
+Data delivery dibutuhkan untuk mengirimkan/menerima data interaksi dari user dan platform. Contohnya user mengirimkan data berupa HTTP get request untuk mendapatkan homepage website, lalu akan dikembalikan response berupa HTTP response untuk menjawab permintaan user tersebut.  Data delivery ini biasanya di dalam format data HTML, XML, JSON.
+
+--- 
+
+### Mengapa JSON lebih populer dibanding XML?
+
+JSON(JavaScript Object Notation) dirancang untuk bekerja sama dengan bahasa pemrograman modern, sehingga JSON lebih mudah diproses oleh sebagian besar bahasa pemrograman tanpa perlu banyak konversi. JSON memiliki struktur sederhana dan mudah dibaca/ditulis oleh manusia atau mesin. JSON hanya terdiri dari object, array dan key-value(semacam map) yang cukup intuitif. 
+
+XML memiliki format yang lebih kompleks dan berbasis tag (mirip dengan html), yang sering kali menghasilkan dokumen besar dan sulit dibaca. Format XML ini yang menyebabkan kompleksitas dalam parsing data, perlu lebih banyak langkah untuk melakukan parsing. Hal ini juga menyebabkan XML lebih lambat untuk di proses.
+
+Intinya JSON lebih sederhana dan lebih mudah dipahami oleh manusia. JSON juga lebih cepat diproses.
+
+---
+
+
+### Perlunya `is_valid()`
+
+`is_valid()` berguna untuk memvalidasi data form yang dikirim oleh pengguna, memastikan data tipenya sesuai, memastikan data tidak melebihi batasan nilai, menangani error, memastikan tidak ada malicious code, dan lain-lain yang berguna untuk mengatasi hal yang tidak diinginkan karena data yang tidak sesuai dari input user.
+
+---
+
+### Perlunya CSRF Token
+
+CSRF Token pada django digunakan sebagai mekanisme keamanan untuk melindungi platform dari serangan CSRF (Cross-Site Request Forgery). CSRF adalah jenis serangan di mana penyerang mengeksploitasi session user untuk melakukan tindakan yang tidak sah atas nama user tersebut, misalkan mengirimkan form berbahaya tanpa sepengetahuan user tersebut. 
+
+CSRF Token disertakan pada setiap kali user mengunjungi halaman yang memerlukan form (login, sign in). Saat pengguna mengirim form tersebut, token CSRF dikirim bersama form. Kemudian, Django memeriksa apakah token yang diterima cocok dengan token yang disimpan di session user. CSRF divalidasi sebelum diteruskan untuk diproses dan apabila tidak valid, akan mengembalikan response **403 (forbidden)** tanpa diteruskan.
+Dengan ini, dapat dipastikan bahwa session user adalah benar-benar user bukan orang lain yang mempunyai session user tersebut.
+
+---
+
+### Implementation step-by-step
+
+#### Membuat `form` untuk menambahkan objek model
+
+1. Menambahkan template `base` pada `root` dan `create_product_entry` pada `main`.

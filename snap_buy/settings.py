@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3t$w@38%g7e3wx!v8)ee_!)$&r=nic0#$_u+q+(5!oj-g6s5+v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "http://yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id", "https://yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id"]
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'snap_buy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
