@@ -1,4 +1,4 @@
-Tautan PWS : yose-yehezkiel-snapbuy2.pbp.cs.ui.ac.id
+Tautan PWS : yose-yehezkiel-snapbuy.pbp.cs.ui.ac.id
 
 ## Tugas 2
 
@@ -147,4 +147,4 @@ Dengan ini, dapat dipastikan bahwa session user adalah benar-benar user bukan or
 
 #### Membuat `form` untuk menambahkan objek model
 
-1. Menambahkan template `base` pada `root` dan `create_product_entry` pada `main`.
+1. Menambahkan template `base.html` pada `root`, dan juga template `create_product_entry.html` pada `main`.
