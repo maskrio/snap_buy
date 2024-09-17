@@ -77,7 +77,7 @@ git push pws main:master
 ---
 
 ### Bagan *request client*
-![Bagan-request-client](https://github.com/maskrio/snap_buy/blob/main/Bagan-request-client.png)
+![Bagan-request-client](https://github.com/maskrio/snap_buy/blob/main/screenshots/Bagan-request-client.png)
 
 
 ---
@@ -147,4 +147,23 @@ Dengan ini, dapat dipastikan bahwa session user adalah benar-benar user bukan or
 
 #### Membuat `form` untuk menambahkan objek model
 
-1. Menambahkan template `base.html` pada `root`, dan juga template `create_product_entry.html` pada `main`.
+1. Menambahkan template `base.html` pada `root` sebagai kerangka views. 
+2. Mebuat id pada model di `models.py` menjadi `models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)` untuk keamanan id.
+3. Membuat `main/forms.py` untuk menerima entry. 
+4. Membuat template forms pada main `create_product_entry.html` dan membuat fungsi baru pada `main/views.py` untuk memproses request membuat product entry.
+5. Membuat fungsi yang akan mengembalikan data, `show_xml`, `show_json`, `show_xml_by_id`, dan `show_json_by_id`. 
+6. Mengatur rute pada `main/urls.py` yang akan mengatur requests.
+
+---
+### Screenshot postman
+#### show json
+![show_json](https://github.com/maskrio/snap_buy/blob/main/screenshots/show_json.png)
+
+#### show xml
+![show_xml](https://github.com/maskrio/snap_buy/blob/main/screenshots/show_xml.png)
+
+#### Show json by id
+![show_json_by_id](https://github.com/maskrio/snap_buy/blob/main/screenshots/show_json_by_id.png)
+
+#### show xml by id
+![show_by_id_xml](https://github.com/maskrio/snap_buy/blob/main/screenshots/show_xml_by_id.png)
