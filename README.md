@@ -167,3 +167,87 @@ Dengan ini, dapat dipastikan bahwa session user adalah benar-benar user bukan or
 
 #### show xml by id
 ![show_by_id_xml](https://github.com/maskrio/snap_buy/blob/main/screenshots/show_xml_by_id.png)
+
+## TUGAS 4
+
+### Django `UserCreationForm`
+
+ Django `UserCreationForm` adalah form bawaan Django untuk membuat pengguna baru. Form ini sudah menyediakan fitur dasar username dan password, disertai validasi password.
+
+ Kelebihan Django `UserCreationForm` adalah, sebagai berikut :
+ 1. Mudah digunakan, 
+ 2. Validasi password langsung, 
+ 3. Bisa langsung digunakan dengan fitur autentikasi django lainnya, seperti login, 
+ 4. Bisa menambahkan field sesuai kebutuhan.
+
+ Kekurangan Django `UserCreationForm` adalah, sebagai berikut : 
+ 1. `UserCreationForm` hanya menyediakan field dasar(username, password), field lainnya harus ditambahkan secara manual, 
+ 2. Desain Form sederhana, perlu penyesuaian tampilan UI agar lebih user-friendly,
+ 3. Menggunakan `username` sebagai identifier, sehingga perlu penyesuaian apabila ingin membuat email atau yang lain sebagai identifier,
+ 4. Tidak mendukung autentikasi sosial media, seperti facebook atau google, sehingga harus ada integrasi secara manual.
+
+ Django `UserCreationForm` mudah dipakai, namun ada keterbatasan yang dimilikinya, sehingga perlu adanya penyesuaian tambahan.
+
+###  `HttpResponseRedirect()` dan `redirect()`
+
+`HttpResponseRedirect()` dan `redirect()` keduanya digunakan untuk mengalihkan ke URL lain. Keduanya merupakan fungsi yang disediakan Django, namun ada sedikit perbedaan diantaranya. `redirect()` lebih fleksibel dari `HttpResponseRedirect()`, karena `HttpResponseRedirect()` harus diisi oleh URL sebagai argumennya
+
+```
+def login_page(request) :
+    return HttpResponseRedirect('/profile/login/)
+```
+
+sedangkan `redirect()` tidak harus mengisinya dengan url saja, melainkan bisa langsung diisi dengan nama view atau objek, dan django akan mengonversinya menjadi url
+
+```
+def login_page(request) :
+    return redirect('/profile/login/')
+```
+```
+def login_page(request) :
+    return redirect('login')
+```
+
+
+### Authentication vs Authorization
+
+Authentication adalah proses memverifikasi identitas pengguna. Authentication memastikan bahwa pengguna benar-benar adalah pengguna tersebut, bukan orang lain yang ingin menjadi pengguna tersebut. Caranya adalah melewati proses login, agar pengguna yang tahu passwordnya saja yang dapat menjadi pengguna tersebut. Proses login ini akan dibandingkan dengan kredensial pada basis data untuk mencocokan pengguna dengan yang telah terdaftar di sistem. 
+
+Authorization adalah proses memeriksa akses pengguna terhadap platform setelah identtitas diverifikasi(**telah melewati Authentication**). Authorization menentukan apa yang boleh dan tidak boleh dilakukan/diakses oleh pengguna tersebut. Contohnya seperti perbedaan user dengan admin, admin memiliki akses yang lebih banyak guna mengontrol jalannya platform, sedangkan user tidak diperbolehkan mengontrol platform.
+
+Keduanya penting karena **autentikasi** memastikan aplikasi hanya berinteraksi dengan pengguna yang sah dan **otorisasi** melindungi sumber daya dan data sensitif dengan hanya memberikan hak akses kepada pengguna tertentu.
+
+
+### Menghubungkan model `Product` dengan `User`
+
+1. Pada `main/models.py`, lakukan import user dan inisialisasi user dan membuat relation dengan model Product memanfaatkan `Foreign Key`.
+```py
+...
+from django.contrib.auth.models import User
+
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+...
+```
+2. Menghubungkan entry form dengan user.
+```
+def create_product_entry(request) :
+    form = ProductEntryForm(request.POST or None) 
+    
+    if form.is_valid() and request.method == "POST" :
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
+        return redirect('main:show_main')
+    
+    context = {'form': form} 
+    return render(request, "create_product_entry.html", context) 
+```
+
+Dengan 2 langkah diatas, telah membuat hubungan antara entry form dengan user. Entry form bisa dibuat banyak untuk 1 user tertentu. Relasi ini adalah relasi many-to-one. Entry form pada `product_entry.user` diinisialisasi oleh `request.user` untuk menandakan object entry ini dimiliki oleh user yang sedang login.
+
+Terakhir, lakukan migrasi
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
