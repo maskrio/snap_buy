@@ -99,7 +99,7 @@ mudah sekali untuk resolve conflicts agar tidak terjadi masalah pada aplikasi.
 
 Django sudah memiliki struktur yang jelas dan mudah
 diaplikasikan. Django juga sudah memiliki banyak fitur
-seperti, autentikasi, manajemen pengguna, ORM, admin panel,
+seperti, authentication, manajemen pengguna, ORM, admin panel,
 sistem routing, testing, dan lain-lain sehingga tidak perlu membangunnya dari awat dan memudahkan pengembang, terutama pemula.
 
 ---
@@ -177,14 +177,14 @@ Dengan ini, dapat dipastikan bahwa session user adalah benar-benar user bukan or
  Kelebihan Django `UserCreationForm` adalah, sebagai berikut :
  1. Mudah digunakan, 
  2. Validasi password langsung, 
- 3. Bisa langsung digunakan dengan fitur autentikasi django lainnya, seperti login, 
+ 3. Bisa langsung digunakan dengan fitur authentication django lainnya, seperti login, 
  4. Bisa menambahkan field sesuai kebutuhan.
 
  Kekurangan Django `UserCreationForm` adalah, sebagai berikut : 
  1. `UserCreationForm` hanya menyediakan field dasar(username, password), field lainnya harus ditambahkan secara manual, 
  2. Desain Form sederhana, perlu penyesuaian tampilan UI agar lebih user-friendly,
  3. Menggunakan `username` sebagai identifier, sehingga perlu penyesuaian apabila ingin membuat email atau yang lain sebagai identifier,
- 4. Tidak mendukung autentikasi sosial media, seperti facebook atau google, sehingga harus ada integrasi secara manual.
+ 4. Tidak mendukung authentication sosial media, seperti facebook atau google, sehingga harus ada integrasi secara manual.
 
  Django `UserCreationForm` mudah dipakai, namun ada keterbatasan yang dimilikinya, sehingga perlu adanya penyesuaian tambahan.
 
@@ -209,18 +209,9 @@ def login_page(request) :
 ```
 
 
-### Authentication vs Authorization
-
-Authentication adalah proses memverifikasi identitas pengguna. Authentication memastikan bahwa pengguna benar-benar adalah pengguna tersebut, bukan orang lain yang ingin menjadi pengguna tersebut. Caranya adalah melewati proses login, agar pengguna yang tahu passwordnya saja yang dapat menjadi pengguna tersebut. Proses login ini akan dibandingkan dengan kredensial pada basis data untuk mencocokan pengguna dengan yang telah terdaftar di sistem. 
-
-Authorization adalah proses memeriksa akses pengguna terhadap platform setelah identtitas diverifikasi(**telah melewati Authentication**). Authorization menentukan apa yang boleh dan tidak boleh dilakukan/diakses oleh pengguna tersebut. Contohnya seperti perbedaan user dengan admin, admin memiliki akses yang lebih banyak guna mengontrol jalannya platform, sedangkan user tidak diperbolehkan mengontrol platform.
-
-Keduanya penting karena **autentikasi** memastikan aplikasi hanya berinteraksi dengan pengguna yang sah dan **otorisasi** melindungi sumber daya dan data sensitif dengan hanya memberikan hak akses kepada pengguna tertentu.
-
-
 ### Menghubungkan model `Product` dengan `User`
 
-1. Pada `main/models.py`, lakukan import user dan inisialisasi user dan membuat relation dengan model Product memanfaatkan `Foreign Key`.
+1. Pada `main/models.py`, lakukan import user dan inisialisasi user dan membuat relation dengan model Product menyimpan user sebagai ForeignKey dari User.
 ```py
 ...
 from django.contrib.auth.models import User
@@ -250,4 +241,176 @@ Terakhir, lakukan migrasi
 ```
 python3 manage.py makemigrations
 python3 manage.py migrate
+```
+
+### Authentication vs Authorization
+
+Authentication adalah proses memverifikasi identitas pengguna. Authentication memastikan bahwa pengguna benar-benar adalah pengguna tersebut, bukan orang lain yang ingin menjadi pengguna tersebut. Caranya adalah melewati proses login, agar pengguna yang tahu passwordnya saja yang dapat menjadi pengguna tersebut. Proses login ini akan dibandingkan dengan kredensial pada basis data untuk mencocokan pengguna dengan yang telah terdaftar di sistem. 
+
+Authorization adalah proses memeriksa akses pengguna terhadap platform setelah identtitas diverifikasi(**telah melewati Authentication**). Authorization menentukan apa yang boleh dan tidak boleh dilakukan/diakses oleh pengguna tersebut. Contohnya seperti perbedaan user dengan admin, admin memiliki akses yang lebih banyak guna mengontrol jalannya platform, sedangkan user tidak diperbolehkan mengontrol platform.
+
+Keduanya penting karena **authentication** memastikan aplikasi hanya berinteraksi dengan pengguna yang sah dan **Authorization** melindungi sumber daya dan data sensitif dengan hanya memberikan hak akses kepada pengguna tertentu.
+
+Django mengimplementasi Authentication dengan cara menyimpan data user yang dapat diakses dengan `request.user` lalu kita cukup menggunakan fungsi `login()`
+```py
+form = AuthenticationForm(data=request.POST)
+if form.is_valid():
+    user = form.get_user()
+    login(request, user)
+```
+
+Authorization di Django diimplementasikan melalui izin dan groups. Contoh perizinan seperti `@login_required`, memastikan pengguna sudah login atau yang lainnya seperti `@permission_required`, memastikan pengguna memiliki izin. Contoh group adalah seperti menerapkan `is_staff` atau grouping lainnya.
+
+### Django mengingat pengguna yang telah login
+
+Django mengingat pengguna yang telah login melalui session dan cookies. Caranya adalah seperti:
+1. Session id disimpan di cookie,
+2. Session data di server, dicocokan untuk verifikasi,
+3. Cookie authentication, yang ketika logout akan dihapus,
+4. Django middleware yang secara otomatis menambahkan dan mengelola sesi tiap kali pengguna mengirim permintaan.
+
+### Kegunaan lain cookies
+
+Kegunaan lain cookies adalah sebagai berikut:
+1. Menyimpan preferensi pengguna, seperti pengaturan font, tema warna, bahasa, dan lain-lain, 
+2. Melacak aktivitas pengguna,
+3. Menyimpan data sementara, seperti last login.
+
+### Apakah semua cookies aman digunakan?
+
+Tidak semua cookies aman. Oleh karena itu, penting untuk memahami risiko serta cara memastikan keamanan cookies. Cookies yang sensitif seperti sessionID harus ditandai Secure untuk memastikan cookie dikirim dengan HTTPS yang terenkripsi. Jika Cookie sensitif tidak diproteksi dengan baik, maka cookie tidak aman untuk digunakan.
+
+### Implementasi Step-by-step
+
+#### Mengimplementasikan fungsi registrasi, login, dan logout.
+1. Menambahkan `@login_required` pada fungsi `show_main()` di `main/views.py`
+2. Menambahkan fungsi login, register, dan logout pada `main/views.py`
+```py
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('main:login')
+    context = {'form':form}
+    return render(request, 'register.html', context)
+
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+  
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
+
+    else:
+        form = AuthenticationForm(request)
+    context = {'form': form}
+    return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+3. Menambahkan routing pada `main/urls.py`
+```py
+...
+from main.views import login_user, logout_user, register
+...
+urlpatterns = [
+    ...
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('register/', register, name='register'),
+]
+```
+
+4. Membuat template di `main/templates` yaitu `login.html` dan `register.html`.
+
+5. Lalu saya Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+
+#### Menghubungkan model `Product` dengan `User` 
+
+1. Pada `main/models.py`, lakukan import user dan inisialisasi user dan membuat relation dengan model Product menyimpan user sebagai ForeignKey dari User.
+```py
+...
+from django.contrib.auth.models import User
+
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+...
+```
+2. Menghubungkan entry form dengan user.
+```
+def create_product_entry(request) :
+    form = ProductEntryForm(request.POST or None) 
+    
+    if form.is_valid() and request.method == "POST" :
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
+        return redirect('main:show_main')
+    
+    context = {'form': form} 
+    return render(request, "create_product_entry.html", context) 
+```
+
+Dengan 2 langkah diatas, telah membuat hubungan antara entry form dengan user. Entry form bisa dibuat banyak untuk 1 user tertentu. Relasi ini adalah relasi many-to-one. Entry form pada `product_entry.user` diinisialisasi oleh `request.user` untuk menandakan object entry ini dimiliki oleh user yang sedang login.
+
+Terakhir, lakukan migrasi
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
+
+#### Menampilkan detail informasi pengguna seperti username
+untuk menampilkan detail data pengguna, kita perlu mengakses objek `request.user` (user yang sedang login) dan mengakses data yang diinginkan seperti `username`.
+```py
+...
+    context = {
+    'name': request.user.username,
+    }
+...
+```
+
+#### Menerapkan cookies
+1. Simpan cookie yang diinginkan (last login)
+```py
+...
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+  
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
+...
+```
+2. Jika ingin ditampilkan, ambil cookienya.
+```py
+def show_main(request):
+    product_entries = Product.objects.all()
+    
+    context = {
+        'npm' : '2306152342',
+        'name': request.user.username,
+        'class': 'PBP E',
+        'product_entries': product_entries,
+        'last_login': request.COOKIES['last_login'],
+    }
+```
+3. Tambahkan saja pada template
+```html
+<h5>Sesi terakhir login: {{ last_login }}</h5>
 ```
