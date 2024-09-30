@@ -419,3 +419,71 @@ def show_main(request):
 ---
 ## Tugas 5
 
+### Urutan pengambilan CSS selector
+
+Bila suatu elemen HTML dipengaruhi beberapa selector, maka prioritas selector yang lebih rendah tidak akan memengaruhi selector css yang lebih tinggi. Berikut adalah urutas selector css dari tertinggi ke rendah.
+
+#### Inline CSS
+```html
+<p style="color: red;">Ini teks merah.</p>
+```
+#### ID selector
+```css
+#myId {
+    color: blue;
+}
+```
+
+#### Class, Attribute, dan Pseudo-class Selector
+```css
+.myClass {
+    color: green;
+}
+```
+#### Element dan Pseudo-element Selector
+```css
+p {
+    color: black;
+}
+```
+
+#### Universal Selector
+```css
+* {
+    margin: 0;
+}
+```
+
+### Pentingnya Responsive Design
+Responsive design adalah konsep yang memungkinkan tampilan situs web beradaptasi dengan berbagai ukuran layar dan perangkat. Konsep ini sangat penting karena memberikan pengalaman User yang lebih baik, pengguna lebih fleksibel untuk bisa membuka situs web dari *smartphone*, PC, tablet, maupun perangkat lainnya.
+
+### Margin, Border, Padding
+
+Strukturnya adalah seperti ini
+
+```
++-------------------------+
+|         Margin          |   <-- Margin
+|  +-------------------+  |
+|  |      Border       |  |   <-- Border
+|  |  +-------------+  |  |
+|  |  |   Padding   |  |  |   <-- Padding
+|  |  |  +-------+  |  |  |
+|  |  |  |Content|  |  |  |   <-- Content
+|  |  |  +-------+  |  |  |
+|  |  |             |  |  |
+|  |  +-------------+  |  |
+|  |                   |  |
+|  +-------------------+  |
+|                         |
++-------------------------+
+```
+
+Cara untuk mengimplementasikannya adalah seperti ini
+``` css
+div {
+    margin: 20px;         /* Jarak di luar border */
+    padding: 15px;        /* Jarak antara konten dan border */
+    border: 2px solid red; /* Border dengan ketebalan 2px dan warna merah */
+}
+```

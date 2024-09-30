@@ -18,6 +18,12 @@ from django.shortcuts import reverse
 def show_main(request):
     product_entries = Product.objects.all()
     
+    try :
+        request.COOKIES['last_login']
+    except:
+        response = redirect(login)
+        return response
+    
     context = {
         'npm' : '2306152342',
         'name': request.user.username,
