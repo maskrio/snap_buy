@@ -487,3 +487,23 @@ div {
     border: 2px solid red; /* Border dengan ketebalan 2px dan warna merah */
 }
 ```
+
+### Flexbox dan Grid Layout
+Flexbox adalah model tata letak **satu dimensi** yang diracang untuk mengatur elemen-elemen dalam baris atau kolom yang fleksibel. Flexbox memudahkan pengaturan jarak antar elemen, alignment, serta pembagian ruang secara proposional. Flexbox memudahkan agar dapat menyesuaikan ukurannya secara otomatis berdasarkan ruang yang ada.
+
+Grid layout juga adalah model tata letak **dua dimensi** yang memungkinkan pengaturan elemen secara horizontal dan vertikal. Dengan grid, kita dapat mengatur tata letak yang lebih kompleks dan terstruktur dengan pengaturan baris kolom yang mudah.
+
+**Flexbox** ideal untuk tata letak satu dimensi, misalnya menyusun elemen dalam baris atau kolom dengan alignment yang fleksibel. 
+
+**Grid Layout** lebih cocok untuk tata letak dua dimensi yang lebih kompleks, di mana Anda perlu mendefinisikan kolom dan baris dengan presisi.
+
+
+### Implementasi Step-by-step
+
+1. Menambahkan fungsi `edit_product` dan `delete_product` pada `main/views.py`
+2. Menambahkan routing pada `urls.py`
+3. Menambahkan `navbar.html` pada `templates`
+4. Menambahkan script CDN tailwind ke `templates/base.html`
+5. Menambahkan statis `global.css` di `static/css`
+6. Mengatur ulang seluruh tampilan pada `main/templates`
+7. Menambahkan `card_info.html`, `card_product.html`, dan `edit_product.html` ke `main/templates`
