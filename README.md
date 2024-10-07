@@ -507,3 +507,48 @@ Grid layout juga adalah model tata letak **dua dimensi** yang memungkinkan penga
 5. Menambahkan statis `global.css` di `static/css`
 6. Mengatur ulang seluruh tampilan pada `main/templates`
 7. Menambahkan `card_info.html`, `card_product.html`, dan `edit_product.html` ke `main/templates`
+
+
+## Tugas 6
+
+
+### Manfaat JavaScript
+JavaScript membuat aplikasi web lebih dinamis, browser dapat merespons interaksi pengguna dan mengubah tata letak konten di halaman web. Ini mencakup elemen-elemen seperti validasi form secara real-time, animasi, pop-up, dropdown menu, dan efek transisi yang membuat pengalaman pengguna lebih menarik dan responsif.
+
+JavaScript dapat dimasukkan ke halaman web manapun dan menggunakannya dengan banyak kerangka dan bahasa pengembangan web lainnya. JavaScript mudah diimplementasikan dan dipakai secara luas di berbagai platform dan perangkat. JavaScript juga cocok untuk front-end maupun back-end.
+
+Ekosistem dari JavaScript juga luas, memiliki pustaka dan framework yang banyak, seperti React, Angular, dan Vue.js di front-end, dan Express.js di back-end. JavaScript juga mendukung asynchronous programming yang memungkinkan developer untuk mengelola tugas-tugas yang memakan waktu, seperti pengambilan data dari server, tanpa mengganggu fungsi lain pada web.
+
+
+### Fungsi `await` ketika `fetch()`
+
+`fetch()` membutuhkan beberapa waktu untuk mendapatkan responses yang sesuai. Dengan adanya `await`, javaScript menunggu hingga response HTTP tersebut selesai baik berhasil maupun gagal. Tanpa adanya `await`, response HTTP dari `fetch` masih dalam kondisi pending, sehingga fungsi yang mungkin membutuhkan hasil dari fetch ini mungkin akan error, karena response disini belum selesai. Ini terjadi karena JavaScript akan selalu menjalankan kode tanpa menunggu terselesainya permintaan HTTP ini, maka perlu kita tambahkan `await`.
+
+### Penggunaan @csrf_exempt pada AJAX POST.
+Penggunaan decorator `@csrf_exempt` pada sebuah view di Django diperlukan dalam situasi tertentu, terutama saat menggunakan AJAX POST request. Ini terkait dengan mekanisme Cross-Site Request Forgery (CSRF) protection yang diterapkan secara otomatis di Django. 
+
+Decorator `@csrf_exempt` digunakan untuk menonaktifkan mekanisme CSRF protection untuk view tertentu. Ini berguna untuk Ajax POST tanpa token CSRF atau view yang aksesnya sangat terbatas dan aman. 
+
+Menonaktifkan `@csrf_exempt` tentu saja dapat meningkatkan resiko keamanan karena membuka celah untuk serangan CSRF. Maka, decorator ini harus digunakan untuk endpoint yang tidak memerlukan mekanisme ini.
+
+### Pembersihan data input pada back-end
+Hal ini dilakukan karena pengguna juga bisa saja mengirimkan request langsung pada back-end (tidak melalui input pada front-end), atau meng-intercept HTTP request dan menggantinya dengan data berbahaya. Oleh karena itu, diperlukan juga sanitasi pada backend untuk mencegah celah yang dapat dimanfaatkan penyerang.
+
+### Implementasi step-by-step 
+
+#### Ubahlah kode cards data product agar dapat mendukung AJAX GET.
+1. Menghapus kode cards yang langsung di htmlnya.
+2. Membuat Script fungsi `getProductEntries()`  yang akan mengambil data dari json. 
+3. Membuat script fungsi `refreshProductEntries()` yang akan menampilkan data productEntries ke dalam cards.
+4. Memastikan data yang diambil berasal dari user yang sedang login.
+
+#### Menambahkan modal
+1. Membuat kerangka modal pada html, dipastikan di hidden.
+2. Membuat fungsi `show_modal` yang akan mengganti tampilan sehingga modal muncul. 
+3. Membuat fungsi `close_modal` yang akan mengganti tampilan sehingga modal ditutup.
+
+#### view untuk menambah product baru
+1. Membuat fungsi `add_product_entry_ajax`.
+2. Melakukan routing pada `main/urls.py`
+3. Membuat button pada `main.html` yang mengarah pada modal dan membuat tampilannya. 
+4. Membuat eventListener ketika button submit di click, akan memanggil fungsi `refreshProductEntries` yang akan merefresh secara asynchronous.
