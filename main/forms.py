@@ -5,9 +5,9 @@ class ProductEntryForm(ModelForm):
     class Meta:
         model = Product
         fields = ["name", "description", "price"]
-    def clean_product(self):
-        product = self.cleaned_data["product"]
-        return strip_tags(product)
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        return strip_tags(name)
 
     def clean_description(self):
         description = self.cleaned_data["description"]
